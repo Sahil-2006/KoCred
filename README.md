@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# KoCred
 
-## Getting Started
+KoCred is a decentralized, secure certificate management system designed specifically for academic institutions like **SRM Institute of Science and Technology**. Its primary mission is to solve the problem of verifying extracurricular and academic certificates through a trust layer that bridges the gap between students, faculty, and external verifiers.
 
-First, run the development server:
+## 🚀 Core Functionality & Workflow
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+KoCred operates on a two-stage verification process to ensure scalability and administrative ease:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1.  **Student-Led Uploads**: 
+    *   Students upload their own certificates to the platform.
+    *   To ensure the verification stamp doesn't obscure important information, students can specify the exact `(X, Y)` coordinates for where the KoCred verification QR code should be placed on the document.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2.  **Faculty-Led Validation**: 
+    *   Once uploaded, metrics enter a "Pending" state.
+    *   Faculty members (authenticated via specific permissions) review the document and facilitate the approval process to move it to a "Verified" state.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3.  **Verification Portal**: 
+    *   Anyone scanning the generated QR code is redirected to the verification portal, which serves as a public proof-of-authenticity page.
 
-## Learn More
+## 🛠 Technical Architecture
 
-To learn more about Next.js, take a look at the following resources:
+KoCred is built with a modern, lean stack designed for high performance and security:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+*   **Frontend**: Built with **Next.js**, utilizing React Server Components and a clean, professional UI with Tailwind CSS.
+*   **Backend & Database**: Powered by **Supabase** (PostgreSQL). It utilizes **Row Level Security (RLS)** to ensure strict data access control—students manage their own files, while faculty have broader verification access.
+*   **Authentication**: Multi-role authentication (Student, Faculty, Admin) managed via Supabase Auth.
+*   **Processing**: Capability for dynamic QR code stamping on certificates.
+*   **Deployment**: Optimized for deployment via **Vercel**.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔒 Privacy & Security Features
 
-## Deploy on Vercel
+A core pillar of KoCred is its "Privacy-First" approach to student data:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+*   **APAAR/ABC ID Integration**: The system uses the APAAR ID (Automated Permanent Academic Account Registry) as a unique identifier.
+*   **Zero-Leak Hashing**: Critical identifiers like the APAAR ID are processed securely to prevent raw data exposure.
+*   **Masked Display**: Public verification pages only show the student's name and a masked version of their ID (e.g., `XXXX-XXXX-9012`) to prevent data scraping while maintaining verifiable proof.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 👥 User Roles
+
+The system implements a three-tier hierarchy:
+
+| Role | Responsibility |
+| :--- | :--- |
+| **Admin** | Oversight, analytics, and system management. |
+| **Faculty** | Authenticating uploaded certificates and managing student approvals. |
+| **Student** | Uploading documents, positioning QR codes, and managing their digital "Vault". |
+
+## 📦 Getting Started
+
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/Sahil-2006/KoCred.git
+    cd KoCred
+    ```
+
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
+
+3.  **Environment Setup**:
+    Create a `.env.local` file with your Supabase credentials:
+    ```env
+    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+    ```
+
+4.  **Run the development server**:
+    ```bash
+    npm run dev
+    ```
+
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
