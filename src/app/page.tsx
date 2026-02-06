@@ -8,12 +8,14 @@ export default function Home() {
       <nav className="border-b border-gray-100 p-6 flex justify-between items-center max-w-7xl mx-auto">
         <div className="font-black text-2xl tracking-tighter flex items-center gap-2">
           <div className="w-8 h-8 bg-[#FFE55B] rounded-lg"></div>
-          CoCred
+          KoCred
         </div>
         <div className="flex gap-4">
            <button className="font-bold text-sm hover:underline">About</button>
            <button className="font-bold text-sm hover:underline">Contact</button>
-           <button className="px-5 py-2 bg-black text-white rounded-full font-bold text-sm hover:bg-gray-800 transition-colors">Sign In</button>
+           <Link href="/signin">
+             <button className="px-5 py-2 bg-black text-white rounded-full font-bold text-sm hover:bg-gray-800 transition-colors">Sign In</button>
+           </Link>
         </div>
       </nav>
 
@@ -32,7 +34,7 @@ export default function Home() {
         </p>
         
         <div className="flex justify-center gap-4">
-           <Link href="/dashboard/student">
+           <Link href="/signup">
             <button className="px-8 py-4 bg-black text-white rounded-xl font-bold text-lg hover:bg-gray-800 transition-all flex items-center gap-2">
               Get Started <ArrowRight size={20} />
             </button>

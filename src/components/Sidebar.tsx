@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 import { 
   Home, 
   BarChart2, 
@@ -23,11 +25,11 @@ import {
 } from "lucide-react";
 import { clsx } from "clsx";
 
-const MENU_ITEMS = [
+const MENU_ITEMS_FACULTY = [
   {
     category: "GENERAL",
     items: [
-      { name: "Dashboard", icon: Home, href: "/" },
+      { name: "Dashboard", icon: ShieldCheck, href: "/dashboard/faculty" },
       { name: "Statistics", icon: BarChart2, href: "/stats" },
     ],
   },
@@ -35,12 +37,80 @@ const MENU_ITEMS = [
     category: "OTHER",
     items: [
       { name: "Settings", icon: Settings, href: "/settings" },
+      { name: "Home", icon: Layout, href: "/" },
+    ],
+  },
+];
+
+const MENU_ITEMS_ADMIN = [
+  {
+    category: "GENERAL",
+    items: [
+      { name: "Dashboard", icon: Users, href: "/dashboard/admin" },
+      { name: "Statistics", icon: BarChart2, href: "/stats" },
+    ],
+  },
+  {
+    category: "OTHER",
+    items: [
+      { name: "Settings", icon: Settings, href: "/settings" },
+      { name: "Home", icon: Layout, href: "/" },
+    ],
+  },
+];
+
+const MENU_ITEMS_STUDENT = [
+  {
+    category: "GENERAL",
+    items: [
+      { name: "Dashboard", icon: Home, href: "/dashboard/student" },
+      { name: "Statistics", icon: BarChart2, href: "/stats" },
+    ],
+  },
+  {
+    category: "OTHER",
+    items: [
+      { name: "Settings", icon: Settings, href: "/settings" },
+      { name: "Home", icon: Layout, href: "/" },
     ],
   },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+    getUser();
+  }, []);
+
+  // Simple role check based on URL path to show relevant items
+  // ideally this should come from a user context
+  let menuItems = MENU_ITEMS_STUDENT;
+  
+  const displayName = user?.user_metadata?.full_name || "User";
+  const displayRole = user?.user_metadata?.role || "Member"; // or fetch role specifically
+  // Generate initials
+  const initials = displayName
+    .split(" ")
+    .map((n: string) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+
+  if (pathname.startsWith("/dashboard/faculty")) {
+    menuItems = MENU_ITEMS_FACULTY;
+  } else if (pathname.startsWith("/dashboard/admin")) {
+    menuItems = MENU_ITEMS_ADMIN;
+  } 
+  
+  // Show all for dev/testing when not in specific dashboard
+  // or default to student
+  const currentMenu = menuItems;
 
   return (
     <div className="w-64 bg-[#FFE55B] h-screen flex flex-col fixed left-0 top-0 overflow-y-auto text-[#202020]">
@@ -50,12 +120,12 @@ export function Sidebar() {
            {/* Simple Icon placeholder */}
            <CreditCard size={20} />
         </div>
-        <span className="font-bold text-xl tracking-tight">CoCred</span>
+        <span className="font-bold text-xl tracking-tight">KoCred</span>
       </div>
 
       {/* Menu Items */}
       <div className="flex-1 px-4 py-2 space-y-8">
-        {MENU_ITEMS.map((section) => (
+        {currentMenu.map((section) => (
           <div key={section.category}>
             <h3 className="text-xs font-semibold text-gray-600 mb-3 px-3 tracking-wider">
               {section.category}
@@ -83,19 +153,19 @@ export function Sidebar() {
           </div>
         ))}
       </div>
-
-      {/* Bottom User Profile Mockup */}
-      <div className="p-4 border-t border-black/5">
+      
+      {/* Bottom User Profile */}
+      <Link href="/settings" className="block p-4 border-t border-black/5 hover:bg-black/5 transition-colors">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center text-white text-xs font-bold">
-            TS
+          <div className="w-8 h-8 rounded-full bg-black text-[#FFE55B] flex items-center justify-center text-xs font-bold">
+            {initials}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium truncate">Tom Svorobovich</p>
-            <p className="text-xs text-gray-600 truncate">Dribbble</p>
+            <p className="text-sm font-medium truncate">{displayName}</p>
+            <p className="text-xs text-gray-600 truncate">{displayRole}</p>
           </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 }
