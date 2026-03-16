@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, User, Mail, Lock, Building, FileText, Hash, BadgeCheck } from "lucide-react";
+import { ArrowRight, User, Mail, Lock, Building, FileText, Hash, BadgeCheck, AlertCircle, CheckCircle } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
@@ -11,6 +11,8 @@ export default function Signup() {
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState("Student");
   const [apaarId, setApaarId] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   
   // Form State
   const [fullName, setFullName] = useState("");
@@ -20,22 +22,38 @@ export default function Signup() {
   const [facultyId, setFacultyId] = useState("");
   const [adminId, setAdminId] = useState("");
 
-  const generateApaarId = () => {
-    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let result = '';
-    for (let i = 0; i < 12; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    setApaarId(result);
+  const getPasswordStrength = (pw: string): { label: string; color: string; width: string } => {
+    if (pw.length === 0) return { label: "", color: "", width: "0%" };
+    if (pw.length < 6) return { label: "Too short", color: "bg-red-500", width: "20%" };
+    
+    let strength = 0;
+    if (pw.length >= 8) strength++;
+    if (/[A-Z]/.test(pw)) strength++;
+    if (/[0-9]/.test(pw)) strength++;
+    if (/[^A-Za-z0-9]/.test(pw)) strength++;
+    
+    if (strength <= 1) return { label: "Weak", color: "bg-red-400", width: "40%" };
+    if (strength === 2) return { label: "Fair", color: "bg-yellow-400", width: "60%" };
+    if (strength === 3) return { label: "Good", color: "bg-green-400", width: "80%" };
+    return { label: "Strong", color: "bg-green-600", width: "100%" };
   };
+
+  const passwordStrength = getPasswordStrength(password);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
+    setSuccess("");
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      setLoading(false);
+      return;
+    }
 
     try {
       // 1. Sign up with Supabase Auth
-      // emailRedirectTo is set to null to prevent email confirmation requirement for testing if disabled in Supabase
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
@@ -43,7 +61,6 @@ export default function Signup() {
           data: {
             full_name: fullName,
             role: role,
-            // Pass all fields to metadata so they are tied to the user immediately
             apaar_id: role === "Student" ? apaarId : null,
             register_no: role === "Student" ? registerNo : null,
             faculty_id: role === "Faculty" ? facultyId : null,
@@ -57,8 +74,8 @@ export default function Signup() {
 
       // Check if email confirmation is required (session will be null)
       if (authData.user && !authData.session) {
-        alert("Account created successfully! Please check your email to verify your account before logging in.");
-        router.push("/signin");
+        setSuccess("Account created successfully! Please check your email to verify your account before logging in.");
+        setTimeout(() => router.push("/signin"), 3000);
         return;
       }
 
@@ -84,13 +101,13 @@ export default function Signup() {
       }
 
       // 3. Redirect to dashboard
-      // Note: In a real app, you might check for email verification first
       if (role === 'Student') router.push('/dashboard/student');
       else if (role === 'Faculty') router.push('/dashboard/faculty');
       else if (role === 'Admin') router.push('/dashboard/admin');
 
-    } catch (error: any) {
-      alert(error.message || "An error occurred during sign up");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "An error occurred during sign up";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -108,6 +125,18 @@ export default function Signup() {
         </div>
 
         <form className="space-y-4" onSubmit={handleSignup}>
+          {error && (
+            <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm font-medium">
+              <AlertCircle size={16} className="shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
+          {success && (
+            <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm font-medium">
+              <CheckCircle size={16} className="shrink-0" />
+              <span>{success}</span>
+            </div>
+          )}
           <div className="space-y-2">
             <label className="text-xs font-bold uppercase text-gray-400 tracking-wider">Full Name</label>
             <div className="relative">
@@ -232,8 +261,20 @@ export default function Signup() {
                 placeholder="••••••••" 
                 className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#FFE55B] focus:border-transparent transition-all"
                 required
+                minLength={6}
               />
             </div>
+            {password.length > 0 && (
+              <div className="space-y-1">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-gray-400">Password strength</span>
+                  <span className="font-medium text-gray-600">{passwordStrength.label}</span>
+                </div>
+                <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                  <div className={`h-full rounded-full transition-all duration-300 ${passwordStrength.color}`} style={{ width: passwordStrength.width }}></div>
+                </div>
+              </div>
+            )}
           </div>
 
           <button 
