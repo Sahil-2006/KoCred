@@ -9,18 +9,8 @@ import {
   BarChart2, 
   Users, 
   CreditCard, 
-  Gift, 
-  Share2, 
-  Megaphone, 
-  Ticket, 
-  RotateCcw, 
-  Bell, 
   Layout, 
-  MessageSquare, 
-  MapPin, 
   Settings,
-  FileCheck,
-  Upload,
   ShieldCheck
 } from "lucide-react";
 import { clsx } from "clsx";
@@ -78,7 +68,7 @@ const MENU_ITEMS_STUDENT = [
 
 export function Sidebar() {
   const pathname = usePathname();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<{ user_metadata?: { full_name?: string; role?: string } } | null>(null);
 
   useEffect(() => {
     const getUser = async () => {
@@ -88,12 +78,8 @@ export function Sidebar() {
     getUser();
   }, []);
 
-  // Simple role check based on URL path to show relevant items
-  // ideally this should come from a user context
-  let menuItems = MENU_ITEMS_STUDENT;
-  
   const displayName = user?.user_metadata?.full_name || "User";
-  const displayRole = user?.user_metadata?.role || "Member"; // or fetch role specifically
+  const displayRole = user?.user_metadata?.role || "Member";
   // Generate initials
   const initials = displayName
     .split(" ")
@@ -102,15 +88,14 @@ export function Sidebar() {
     .toUpperCase()
     .slice(0, 2);
 
-  if (pathname.startsWith("/dashboard/faculty")) {
-    menuItems = MENU_ITEMS_FACULTY;
-  } else if (pathname.startsWith("/dashboard/admin")) {
-    menuItems = MENU_ITEMS_ADMIN;
-  } 
-  
-  // Show all for dev/testing when not in specific dashboard
-  // or default to student
-  const currentMenu = menuItems;
+  // Determine menu based on user role from metadata, with URL path as fallback
+  let currentMenu = MENU_ITEMS_STUDENT;
+  const userRole = user?.user_metadata?.role;
+  if (userRole === "Faculty" || pathname.startsWith("/dashboard/faculty")) {
+    currentMenu = MENU_ITEMS_FACULTY;
+  } else if (userRole === "Admin" || pathname.startsWith("/dashboard/admin")) {
+    currentMenu = MENU_ITEMS_ADMIN;
+  }
 
   return (
     <div className="w-64 bg-[#FFE55B] h-screen flex flex-col fixed left-0 top-0 overflow-y-auto text-[#202020]">

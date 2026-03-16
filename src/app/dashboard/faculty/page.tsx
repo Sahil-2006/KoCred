@@ -1,4 +1,4 @@
-import { Check, X, Filter, Download } from "lucide-react";
+import { Check, X, Filter } from "lucide-react";
 
 export default function FacultyDashboard() {
   const pendingRequests = [

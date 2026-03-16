@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Mail, Lock } from "lucide-react";
+import { ArrowRight, Mail, Lock, AlertCircle } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
@@ -11,10 +11,12 @@ export default function Signin() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSignin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
     
     try {
       const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
@@ -36,8 +38,7 @@ export default function Signin() {
         if (profileError) throw profileError;
 
         if (!profile) {
-          // Profile missing for some reason (e.g. signup failed halfway)
-          alert("Profile not found. Please contact support or try signing up again.");
+          setError("Profile not found. Please contact support or try signing up again.");
           return;
         }
 
@@ -48,8 +49,9 @@ export default function Signin() {
         else router.push('/dashboard/student'); // Fallback
       }
 
-    } catch (error: any) {
-       alert(error.message || "An error occurred during sign in");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "An error occurred during sign in";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -67,6 +69,12 @@ export default function Signin() {
         </div>
 
         <form className="space-y-4" onSubmit={handleSignin}>
+          {error && (
+            <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm font-medium">
+              <AlertCircle size={16} className="shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
           <div className="space-y-2">
             <label className="text-xs font-bold uppercase text-gray-400 tracking-wider">Email Address</label>
             <div className="relative">
@@ -111,7 +119,7 @@ export default function Signin() {
 
         <div className="mt-8 text-center">
           <p className="text-gray-500 font-medium text-sm">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href="/signup" className="text-black font-bold hover:underline">
               Create Account
             </Link>

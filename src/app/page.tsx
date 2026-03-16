@@ -58,7 +58,7 @@ export default function Home() {
                      <GraduationCap size={28} className="text-black" />
                   </div>
                   <h3 className="text-2xl font-bold mb-3">Student</h3>
-                  <p className="text-gray-500 mb-6">Upload certificates, generate resumes, and validte your skills with crypto-signatures.</p>
+                  <p className="text-gray-500 mb-6">Upload certificates, generate resumes, and validate your skills with crypto-signatures.</p>
                   <div className="flex items-center text-sm font-bold group-hover:underline">
                     Enter Dashboard <ArrowRight size={16} className="ml-2" />
                   </div>
@@ -86,7 +86,7 @@ export default function Home() {
                      <Users size={28} className="text-gray-700" />
                   </div>
                   <h3 className="text-2xl font-bold mb-3">Admin</h3>
-                  <p className="text-gray-500 mb-6">Placement analytics, "God Mode" search, and complete institutional oversight.</p>
+                  <p className="text-gray-500 mb-6">Placement analytics, &ldquo;God Mode&rdquo; search, and complete institutional oversight.</p>
                   <div className="flex items-center text-sm font-bold group-hover:underline">
                     Enter Dashboard <ArrowRight size={16} className="ml-2" />
                   </div>

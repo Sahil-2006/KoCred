@@ -5,9 +5,22 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { User, Mail, Shield, Hash, LogOut, Building, FileText } from "lucide-react";
 
+interface UserProfile {
+  email?: string;
+  user_metadata?: {
+    full_name?: string;
+    email?: string;
+    role?: string;
+    apaar_id?: string;
+    register_no?: string;
+    faculty_id?: string;
+    admin_id?: string;
+  };
+}
+
 export default function SettingsPage() {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -98,7 +111,7 @@ export default function SettingsPage() {
                 </div>
                 <div>
                   <p className="text-xs text-gray-500">Email Address</p>
-                  <p className="text-sm font-medium">{email || user.email}</p>
+                  <p className="text-sm font-medium">{email || user?.email}</p>
                 </div>
               </div>
 

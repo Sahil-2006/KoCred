@@ -1,4 +1,4 @@
-import { Search, Download, Filter, Shield } from "lucide-react";
+import { Search, Download, Shield } from "lucide-react";
 
 export default function AdminDashboard() {
   return (
