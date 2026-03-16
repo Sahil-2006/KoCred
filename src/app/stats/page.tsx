@@ -33,7 +33,14 @@ export default function StatsPage() {
   const maxCerts = Math.max(...MONTHLY_DATA.map(d => d.certificates));
   const totalCategory = CATEGORY_DATA.reduce((sum, c) => sum + c.count, 0);
 
-  const displayData = timeRange === "6m" ? MONTHLY_DATA : timeRange === "3m" ? MONTHLY_DATA.slice(3) : MONTHLY_DATA.slice(5);
+  const getDisplayData = () => {
+    switch (timeRange) {
+      case "3m": return MONTHLY_DATA.slice(3);
+      case "1m": return MONTHLY_DATA.slice(5);
+      default: return MONTHLY_DATA;
+    }
+  };
+  const displayData = getDisplayData();
 
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-8">
