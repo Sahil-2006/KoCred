@@ -7,8 +7,8 @@ export default function Home() {
       {/* Navbar */}
       <nav className="border-b border-gray-100 p-6 flex justify-between items-center max-w-7xl mx-auto">
         <div className="font-black text-2xl tracking-tighter flex items-center gap-2">
-          <div className="w-8 h-8 bg-[#FFE55B] rounded-lg"></div>
-          KoCred
+          <div className="w-8 h-8 bg-[#4F46E5] rounded-lg"></div>
+          CoCred
         </div>
         <div className="flex gap-4">
            <button className="font-bold text-sm hover:underline">About</button>
@@ -21,7 +21,7 @@ export default function Home() {
 
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto px-6 py-20 text-center">
-        <div className="inline-block bg-[#FFE55B] px-4 py-1 rounded-full text-xs font-bold mb-6">
+        <div className="inline-block bg-[#4F46E5] text-white px-4 py-1 rounded-full text-xs font-bold mb-6">
           v2.0 Beta Live
         </div>
         <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight leading-tight">
@@ -54,8 +54,8 @@ export default function Home() {
              {/* Student Portal */}
              <Link href="/dashboard/student" className="group">
                <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all h-full">
-                  <div className="w-14 h-14 bg-[#FFE55B] rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform">
-                     <GraduationCap size={28} className="text-black" />
+                  <div className="w-14 h-14 bg-[#4F46E5] rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform">
+                     <GraduationCap size={28} className="text-white" />
                   </div>
                   <h3 className="text-2xl font-bold mb-3">Student</h3>
                   <p className="text-gray-500 mb-6">Upload certificates, generate resumes, and validate your skills with crypto-signatures.</p>

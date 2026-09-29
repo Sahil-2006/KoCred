@@ -26,13 +26,13 @@ export default function StudentDashboard() {
         </div>
         <div className="flex bg-white p-1.5 rounded-xl border border-gray-100 shadow-sm">
            <button 
-            className={`px-6 py-2.5 rounded-lg font-bold text-sm transition-all ${activeTab === 'certificates' ? 'bg-[#FFE55B] text-black shadow-sm' : 'text-gray-500 hover:text-black hover:bg-gray-50'}`}
+            className={`px-6 py-2.5 rounded-lg font-bold text-sm transition-all ${activeTab === 'certificates' ? 'bg-[#4F46E5] text-white shadow-sm' : 'text-gray-500 hover:text-black hover:bg-gray-50'}`}
             onClick={() => setActiveTab('certificates')}
            >
              Dashboard
            </button>
            <button 
-            className={`px-6 py-2.5 rounded-lg font-bold text-sm transition-all ${activeTab === 'resume' ? 'bg-[#FFE55B] text-black shadow-sm' : 'text-gray-500 hover:text-black hover:bg-gray-50'}`}
+            className={`px-6 py-2.5 rounded-lg font-bold text-sm transition-all ${activeTab === 'resume' ? 'bg-[#4F46E5] text-white shadow-sm' : 'text-gray-500 hover:text-black hover:bg-gray-50'}`}
             onClick={() => setActiveTab('resume')}
            >
              Resume Generator
@@ -44,7 +44,7 @@ export default function StudentDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Activity Credit Meter */}
         <div className="lg:col-span-2 bg-[#1A1A1A] rounded-3xl p-8 text-white relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#FFE55B] opacity-5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#4F46E5] opacity-5 rounded-full blur-3xl -mr-32 -mt-32"></div>
           
           <div className="flex justify-between items-start mb-8 relative z-10">
              <div>
@@ -55,7 +55,7 @@ export default function StudentDashboard() {
                <p className="text-gray-400">Keep participating to reach your graduation goal.</p>
              </div>
              <div className="text-right">
-               <span className="text-6xl font-black text-[#FFE55B]">850</span>
+               <span className="text-6xl font-black text-[#4F46E5]">850</span>
                <span className="text-gray-400 font-medium ml-2">/ 1000 pts</span>
              </div>
           </div>
@@ -66,13 +66,13 @@ export default function StudentDashboard() {
               <span>85% Completed</span>
             </div>
             <div className="w-full bg-white/10 rounded-full h-4 backdrop-blur-sm overflow-hidden">
-               <div className="bg-[#FFE55B] h-full rounded-full transition-all duration-1000 ease-out" style={{ width: '85%' }}></div>
+               <div className="bg-[#4F46E5] h-full rounded-full transition-all duration-1000 ease-out" style={{ width: '85%' }}></div>
             </div>
           </div>
         </div>
 
         {/* Digital ID Card (Optional Feature) */}
-        <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col items-center justify-center text-center group hover:border-[#FFE55B] transition-colors relative overflow-hidden">
+        <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm flex flex-col items-center justify-center text-center group hover:border-[#4F46E5] transition-colors relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4">
              <div className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -95,8 +95,8 @@ export default function StudentDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Physical Certificate Upload */}
         <div className="group bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer">
-           <div className="h-12 w-12 bg-[#FFE55B] rounded-xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform">
-              <Upload size={24} className="text-black" />
+           <div className="h-12 w-12 bg-[#4F46E5] rounded-xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform">
+              <Upload size={24} className="text-white" />
            </div>
            <h3 className="text-xl font-bold mb-2">Smart Upload</h3>
            <p className="text-gray-500 text-sm mb-4 line-clamp-2">Upload photo of physical certificates. AI verifies details automatically.</p>
@@ -170,7 +170,7 @@ export default function StudentDashboard() {
                    </td>
                    <td className="py-4 px-8 text-gray-600 font-medium text-sm">{cert.date}</td>
                    <td className="py-4 px-8">
-                      <span className="bg-[#FFE55B] px-3 py-1 rounded-full text-xs font-bold">+{cert.points} pts</span>
+                      <span className="bg-[#4F46E5] text-white px-3 py-1 rounded-full text-xs font-bold">+{cert.points} pts</span>
                    </td>
                    <td className="py-4 px-8">
                       {cert.status === 'Verified' ? (

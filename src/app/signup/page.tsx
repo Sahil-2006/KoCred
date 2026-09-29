@@ -52,76 +52,28 @@ export default function Signup() {
       return;
     }
 
-    try {
-      // 1. Sign up with Supabase Auth
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: fullName,
-            role: role,
-            apaar_id: role === "Student" ? apaarId : null,
-            register_no: role === "Student" ? registerNo : null,
-            faculty_id: role === "Faculty" ? facultyId : null,
-            admin_id: role === "Admin" ? adminId : null,
-          },
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-        }
-      });
+    // Simulate network delay for demo
+    await new Promise((r) => setTimeout(r, 1000));
 
-      if (authError) throw authError;
+    setSuccess("Account created successfully! Redirecting to dashboard...");
+    setTimeout(() => {
+      if (role === "Student") router.push("/dashboard/student");
+      else if (role === "Faculty") router.push("/dashboard/faculty");
+      else if (role === "Admin") router.push("/dashboard/admin");
+    }, 1500);
 
-      // Check if email confirmation is required (session will be null)
-      if (authData.user && !authData.session) {
-        setSuccess("Account created successfully! Please check your email to verify your account before logging in.");
-        setTimeout(() => router.push("/signin"), 3000);
-        return;
-      }
-
-      if (!authData.user) throw new Error("No user created");
-
-      // 2. Insert into profiles table
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: authData.user.id,
-          full_name: fullName,
-          role: role,
-          email: email,
-          apaar_id: role === "Student" ? apaarId : null,
-          register_no: role === "Student" ? registerNo : null,
-          faculty_id: role === "Faculty" ? facultyId : null,
-          admin_id: role === "Admin" ? adminId : null,
-        });
-
-      if (profileError) {
-        console.error("Profile creation error:", profileError);
-        throw profileError;
-      }
-
-      // 3. Redirect to dashboard
-      if (role === 'Student') router.push('/dashboard/student');
-      else if (role === 'Faculty') router.push('/dashboard/faculty');
-      else if (role === 'Admin') router.push('/dashboard/admin');
-
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "An error occurred during sign up";
-      setError(message);
-    } finally {
-      setLoading(false);
-    }
+    setLoading(false);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
       <div className="max-w-md w-full bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
         <div className="text-center mb-8">
-          <div className="w-12 h-12 bg-[#FFE55B] rounded-xl mx-auto mb-4 flex items-center justify-center">
-             <User className="text-black" size={24} />
+          <div className="w-12 h-12 bg-[#4F46E5] rounded-xl mx-auto mb-4 flex items-center justify-center">
+             <User className="text-white" size={24} />
           </div>
           <h1 className="text-2xl font-black mb-2">Create Account</h1>
-          <p className="text-gray-500 font-medium text-sm">Join KoCred as a Student or Faculty</p>
+          <p className="text-gray-500 font-medium text-sm">Join CoCred as a Student or Faculty</p>
         </div>
 
         <form className="space-y-4" onSubmit={handleSignup}>
@@ -146,7 +98,7 @@ export default function Signup() {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="John Doe" 
-                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#FFE55B] focus:border-transparent transition-all"
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
                 required
               />
             </div>
@@ -161,7 +113,7 @@ export default function Signup() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="john@university.edu" 
-                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#FFE55B] focus:border-transparent transition-all"
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
                 required
               />
             </div>
@@ -174,7 +126,7 @@ export default function Signup() {
               <select 
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#FFE55B] focus:border-transparent transition-all appearance-none"
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all appearance-none"
               >
                 <option value="Student">Student</option>
                 <option value="Faculty">Faculty</option>
@@ -194,7 +146,7 @@ export default function Signup() {
                     value={apaarId}
                     onChange={(e) => setApaarId(e.target.value)}
                     placeholder="Enter your Apaar ID" 
-                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#FFE55B] focus:border-transparent transition-all"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
                     required
                   />
                 </div>
@@ -208,7 +160,7 @@ export default function Signup() {
                     value={registerNo}
                     onChange={(e) => setRegisterNo(e.target.value)}
                     placeholder="University Register No" 
-                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#FFE55B] focus:border-transparent transition-all"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
                     required
                   />
                 </div>
@@ -226,7 +178,7 @@ export default function Signup() {
                   value={facultyId}
                   onChange={(e) => setFacultyId(e.target.value)}
                   placeholder="Advisor ID" 
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#FFE55B] focus:border-transparent transition-all"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
                   required
                 />
               </div>
@@ -243,7 +195,7 @@ export default function Signup() {
                   value={adminId}
                   onChange={(e) => setAdminId(e.target.value)}
                   placeholder="Admin ID" 
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#FFE55B] focus:border-transparent transition-all"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
                   required
                 />
               </div>
@@ -259,7 +211,7 @@ export default function Signup() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••" 
-                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#FFE55B] focus:border-transparent transition-all"
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-12 pr-4 font-medium focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all"
                 required
                 minLength={6}
               />

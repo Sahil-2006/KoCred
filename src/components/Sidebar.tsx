@@ -98,21 +98,21 @@ export function Sidebar() {
   }
 
   return (
-    <div className="w-64 bg-[#FFE55B] h-screen flex flex-col fixed left-0 top-0 overflow-y-auto text-[#202020]">
+    <div className="w-64 bg-[#4F46E5] h-screen flex flex-col fixed left-0 top-0 overflow-y-auto text-white">
       {/* Logo Area */}
       <div className="p-6 flex items-center gap-2">
-        <div className="bg-black text-[#FFE55B] p-1 rounded-full">
+        <div className="bg-white text-[#4F46E5] p-1 rounded-full">
            {/* Simple Icon placeholder */}
            <CreditCard size={20} />
         </div>
-        <span className="font-bold text-xl tracking-tight">KoCred</span>
+        <span className="font-bold text-xl tracking-tight">CoCred</span>
       </div>
 
       {/* Menu Items */}
       <div className="flex-1 px-4 py-2 space-y-8">
         {currentMenu.map((section) => (
           <div key={section.category}>
-            <h3 className="text-xs font-semibold text-gray-600 mb-3 px-3 tracking-wider">
+            <h3 className="text-xs font-semibold text-indigo-200 mb-3 px-3 tracking-wider">
               {section.category}
             </h3>
             <div className="space-y-1">
@@ -125,8 +125,8 @@ export function Sidebar() {
                     className={clsx(
                       "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                       isActive
-                        ? "bg-black/5 text-black"
-                        : "text-gray-700 hover:bg-black/5 hover:text-black"
+                        ? "bg-white/15 text-white"
+                        : "text-indigo-100 hover:bg-white/10 hover:text-white"
                     )}
                   >
                     <item.icon size={18} />
@@ -140,14 +140,14 @@ export function Sidebar() {
       </div>
       
       {/* Bottom User Profile */}
-      <Link href="/settings" className="block p-4 border-t border-black/5 hover:bg-black/5 transition-colors">
+      <Link href="/settings" className="block p-4 border-t border-white/10 hover:bg-white/10 transition-colors">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-black text-[#FFE55B] flex items-center justify-center text-xs font-bold">
+          <div className="w-8 h-8 rounded-full bg-white text-[#4F46E5] flex items-center justify-center text-xs font-bold">
             {initials}
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium truncate">{displayName}</p>
-            <p className="text-xs text-gray-600 truncate">{displayRole}</p>
+            <p className="text-xs text-indigo-200 truncate">{displayRole}</p>
           </div>
         </div>
       </Link>

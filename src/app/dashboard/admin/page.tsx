@@ -18,7 +18,7 @@ export default function AdminDashboard() {
       {/* God Mode Search */}
       <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8">
          <div className="flex items-center gap-2 mb-4">
-            <Shield size={20} className="text-[#FFE55B]" />
+            <Shield size={20} className="text-[#4F46E5]" />
             <h2 className="text-lg font-bold">God Mode Search</h2>
          </div>
          <div className="flex gap-4">
@@ -27,7 +27,7 @@ export default function AdminDashboard() {
                <input 
                  type="text" 
                  placeholder="Search by name, skill, year (e.g. '3rd Year Java Hackathon')" 
-                 className="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-xl border-none focus:ring-2 focus:ring-[#FFE55B] outline-none transition"
+                 className="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-xl border-none focus:ring-2 focus:ring-[#4F46E5] outline-none transition"
                />
             </div>
             <button className="px-6 py-3 bg-gray-100 font-bold rounded-xl hover:bg-gray-200 text-gray-700">
@@ -36,7 +36,7 @@ export default function AdminDashboard() {
          </div>
          <div className="mt-4 flex gap-2 flex-wrap">
             {['> 800 Points', 'Clean Record', 'Hackathon Winner', 'Final Year'].map((tag) => (
-               <span key={tag} className="px-3 py-1 bg-[#FFF8CC] text-yellow-800 rounded-full text-xs font-bold cursor-pointer hover:bg-[#FFE55B]">
+               <span key={tag} className="px-3 py-1 bg-[#E0E7FF] text-indigo-800 rounded-full text-xs font-bold cursor-pointer hover:bg-[#4F46E5] hover:text-white">
                   {tag} &times;
                </span>
             ))}
@@ -56,7 +56,7 @@ export default function AdminDashboard() {
          <div className="bg-white p-6 rounded-2xl border border-gray-100">
             <p className="text-gray-500 text-xs font-bold uppercase mb-2">Top Performer</p>
             <p className="text-lg font-bold truncate">Sarah Connor</p>
-            <p className="text-xs text-yellow-600 font-bold">1250 Points</p>
+            <p className="text-xs text-indigo-600 font-bold">1250 Points</p>
          </div>
          <div className="bg-white p-6 rounded-2xl border border-gray-100">
             <p className="text-gray-500 text-xs font-bold uppercase mb-2">Certificates Today</p>

@@ -13,48 +13,31 @@ export default function Signin() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  // Demo credentials for preview
+  const DEMO_USERS: Record<string, { role: string; name: string }> = {
+    "student@cocred.demo": { role: "Student", name: "Sahil Kumar" },
+    "faculty@cocred.demo": { role: "Faculty", name: "Dr. Priya Sharma" },
+    "admin@cocred.demo": { role: "Admin", name: "Admin User" },
+  };
+
   const handleSignin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
-    
-    try {
-      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
 
-      if (authError) throw authError;
+    // Simulate network delay
+    await new Promise((r) => setTimeout(r, 800));
 
-      if (authData.user) {
-        // Fetch user profile to determine role
-        // Use maybeSingle() to avoid error if profile doesn't exist yet
-        const { data: profile, error: profileError } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', authData.user.id)
-          .maybeSingle();
-        
-        if (profileError) throw profileError;
-
-        if (!profile) {
-          setError("Profile not found. Please contact support or try signing up again.");
-          return;
-        }
-
-        // Redirect based on role
-        if (profile?.role === 'Student') router.push('/dashboard/student');
-        else if (profile?.role === 'Faculty') router.push('/dashboard/faculty');
-        else if (profile?.role === 'Admin') router.push('/dashboard/admin');
-        else router.push('/dashboard/student'); // Fallback
-      }
-
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "An error occurred during sign in";
-      setError(message);
-    } finally {
-      setLoading(false);
+    const demoUser = DEMO_USERS[email.toLowerCase()];
+    if (demoUser && password === "demo123") {
+      if (demoUser.role === "Student") router.push("/dashboard/student");
+      else if (demoUser.role === "Faculty") router.push("/dashboard/faculty");
+      else if (demoUser.role === "Admin") router.push("/dashboard/admin");
+    } else {
+      setError("Invalid credentials. Try: student@cocred.demo / demo123");
     }
+
+    setLoading(false);
   };
 
   return (
@@ -111,7 +94,7 @@ export default function Signin() {
 
           <button 
             disabled={loading}
-            className="w-full bg-[#FFE55B] text-black font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-[#ffe03d] transition-colors mt-2 disabled:opacity-50"
+            className="w-full bg-[#4F46E5] text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-[#4338CA] transition-colors mt-2 disabled:opacity-50"
           >
             {loading ? "Signing In..." : "Sign In"} <ArrowRight size={20} />
           </button>

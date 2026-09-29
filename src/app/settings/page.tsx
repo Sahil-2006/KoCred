@@ -79,7 +79,7 @@ export default function SettingsPage() {
         
         <div className="px-8 pb-8 relative">
           {/* Avatar */}
-          <div className="absolute -top-24 border-4 border-white w-24 h-24 rounded-full bg-black text-[#FFE55B] flex items-center justify-center text-3xl font-bold shadow-md">
+          <div className="absolute -top-24 border-4 border-white w-24 h-24 rounded-full bg-[#4F46E5] text-white flex items-center justify-center text-3xl font-bold shadow-md">
             {full_name?.charAt(0) || "U"}
           </div>
 

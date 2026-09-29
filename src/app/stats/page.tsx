@@ -13,7 +13,7 @@ const MONTHLY_DATA = [
 ];
 
 const CATEGORY_DATA = [
-  { name: "Workshops", count: 124, color: "bg-[#FFE55B]" },
+  { name: "Workshops", count: 124, color: "bg-[#4F46E5]" },
   { name: "Hackathons", count: 86, color: "bg-black" },
   { name: "Sports", count: 67, color: "bg-blue-500" },
   { name: "Social Work", count: 53, color: "bg-green-500" },
@@ -53,7 +53,7 @@ export default function StatsPage() {
           {(["6m", "3m", "1m"] as const).map((range) => (
             <button
               key={range}
-              className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${timeRange === range ? "bg-[#FFE55B] text-black shadow-sm" : "text-gray-500 hover:text-black hover:bg-gray-50"}`}
+              className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${timeRange === range ? "bg-[#4F46E5] text-white shadow-sm" : "text-gray-500 hover:text-black hover:bg-gray-50"}`}
               onClick={() => setTimeRange(range)}
             >
               {range === "6m" ? "6 Months" : range === "3m" ? "3 Months" : "1 Month"}
@@ -66,7 +66,7 @@ export default function StatsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
           <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 bg-[#FFF8CC] rounded-lg"><FileText size={20} className="text-yellow-700" /></div>
+            <div className="p-2 bg-[#E0E7FF] rounded-lg"><FileText size={20} className="text-indigo-700" /></div>
             <p className="text-gray-500 text-xs font-bold uppercase">Total Certificates</p>
           </div>
           <p className="text-3xl font-black">413</p>
@@ -116,7 +116,7 @@ export default function StatsPage() {
                     title={`${d.certificates} uploads`}
                   ></div>
                   <div
-                    className="w-5 bg-[#FFE55B] rounded-t-md transition-all duration-500"
+                    className="w-5 bg-[#4F46E5] rounded-t-md transition-all duration-500"
                     style={{ height: `${(d.verified / maxCerts) * 100}%` }}
                     title={`${d.verified} verified`}
                   ></div>
@@ -127,7 +127,7 @@ export default function StatsPage() {
           </div>
           <div className="flex gap-4 mt-4 justify-center">
             <div className="flex items-center gap-2 text-xs text-gray-500"><div className="w-3 h-3 bg-gray-200 rounded"></div> Uploads</div>
-            <div className="flex items-center gap-2 text-xs text-gray-500"><div className="w-3 h-3 bg-[#FFE55B] rounded"></div> Verified</div>
+            <div className="flex items-center gap-2 text-xs text-gray-500"><div className="w-3 h-3 bg-[#4F46E5] rounded"></div> Verified</div>
           </div>
         </div>
 
